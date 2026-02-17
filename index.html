@@ -9,11 +9,11 @@
         :root {
             --bg: #ffffff; --sec-bg: #f4f4f5; --text: #000000; --hint: #707579;
             --card-border: rgba(0,0,0,0.1); --accent: #3390ec; --accent-red: #ff3b30; --accent-green: #34c759;
-            --checkbox-bg: #dee2e6;
+            --toggle-off: #dee2e6;
         }
         [data-theme="dark"] {
             --bg: #1c1c1d; --sec-bg: #2c2c2e; --text: #ffffff; --hint: #8e8e93; 
-            --card-border: rgba(255,255,255,0.1); --checkbox-bg: #3a3a3c;
+            --card-border: rgba(255,255,255,0.1); --toggle-off: #3a3a3c;
         }
 
         body {
@@ -42,15 +42,22 @@
             color: var(--text); font-size: 16px; padding: 10px; width: 100%; box-sizing: border-box; outline: none;
         }
 
-        /* Чекбокс под тему */
-        input[type="checkbox"] {
-            appearance: none; width: 22px; height: 22px; background: var(--checkbox-bg);
-            border-radius: 6px; cursor: pointer; position: relative; transition: 0.2s;
+        /* Обновленный Зеленый Toggle Switch */
+        .switch {
+            position: relative; display: inline-block; width: 40px; height: 22px;
         }
-        input[type="checkbox"]:checked { background: var(--accent-red); }
-        input[type="checkbox"]:checked::after {
-            content: "✔"; position: absolute; color: white; font-size: 14px; left: 4px; top: 1px;
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--toggle-off); transition: .3s; border-radius: 22px;
         }
+        .slider:before {
+            position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s; border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        input:checked + .slider { background-color: var(--accent-green); }
+        input:checked + .slider:before { transform: translateX(18px); }
 
         .preview-box {
             background: var(--sec-bg); border: 1px dashed var(--hint); border-radius: 12px;
@@ -111,7 +118,10 @@
 <div class="card" style="padding: 10px 14px;">
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <span style="font-size: 13px; font-weight: 700;">🚨 Срочный заказ</span>
-        <input type="checkbox" id="urgent" onchange="update()">
+        <label class="switch">
+            <input type="checkbox" id="urgent" onchange="update()">
+            <span class="slider"></span>
+        </label>
     </div>
 </div>
 
