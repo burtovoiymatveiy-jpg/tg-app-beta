@@ -47,7 +47,7 @@
             display: flex; flex-direction: column; gap: 10px;
         }
 
-        label { font-size: 12px; color: var(--hint); font-weight: 600; margin-left: 4px; }
+        label { font-size: 11px; color: var(--hint); font-weight: 600; margin-left: 4px; }
 
         input, select {
             background: var(--bg);
@@ -77,6 +77,14 @@
             font-size: 16px; font-weight: 700; cursor: pointer;
         }
 
+        .channel-btn {
+            background: transparent;
+            border: 1px solid var(--link);
+            color: var(--link);
+            padding: 12px; border-radius: 14px;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+        }
+
         .row { display: flex; gap: 8px; }
         .secondary-btn {
             flex: 1; background: var(--accent-green);
@@ -84,7 +92,6 @@
             border-radius: 12px; font-weight: 600; font-size: 14px;
         }
 
-        /* Switch UI */
         .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
@@ -102,8 +109,10 @@
 <body>
 
     <div class="sub-warning">
-        ⚠️ Подписка на @txtandpptx обязательна!
+        ⚠️ Подписка на канал обязательна для выполнения заказа!
     </div>
+
+    <button class="channel-btn" onclick="tg.openTelegramLink('https://t.me/txtandpptx')">📢 Перейти в канал</button>
 
     <div class="anti-plag-note">
         🛑 РАБОТЫ ТОЛЬКО БЕЗ ПРОВЕРКИ НА АНТИПЛАГИАТ
@@ -153,8 +162,8 @@
     <button class="main-btn" onclick="copy()">Скопировать готовую анкету</button>
 
     <div class="row">
-        <button class="secondary-btn" onclick="nav()">📎 Скинуть файлы</button>
-        <button class="secondary-btn" onclick="nav()">💬 Вставить и отправить</button>
+        <button class="secondary-btn" onclick="nav()">📎 Файлы</button>
+        <button class="secondary-btn" onclick="nav()">💬 Написать @awarem</button>
     </div>
 
     <script>
@@ -175,8 +184,9 @@
             
             document.getElementById('unit-label').innerText = label;
 
-            const text = `${isUrgent ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : ''}
-1. Вид работы: ${type}
+            // Формируем текст без пустой строки в начале
+            let header = isUrgent ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
+            const text = `${header}1. Вид работы: ${type}
 2. Количество ${unit}: ${count}
 3. Срок выполнения: ${deadline}
 4. Желаемая сумма оплаты: ${price} руб.
